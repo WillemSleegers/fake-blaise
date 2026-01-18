@@ -1,6 +1,6 @@
 export { BlaiseLayout } from "./BlaiseLayout";
 export { BlaiseHeader } from "./BlaiseHeader";
-export { BlaiseHeaderActions, BlaiseHeaderAction } from "./BlaiseHeaderActions";
+export { BlaiseHeaderActions } from "./BlaiseHeaderActions";
 export { BlaiseTitleBar } from "./BlaiseTitleBar";
 export { BlaiseNavigation } from "./BlaiseNavigation";
 export { BlaiseContent, BlaiseContentSection } from "./BlaiseContent";

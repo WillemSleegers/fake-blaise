@@ -1,21 +1,17 @@
-"use client";
+"use client"
 
-import { cn } from "@/lib/utils";
-
-interface BlaiseButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+interface BlaiseButtonProps {
+  children: React.ReactNode
+  onClick?: () => void
 }
 
-export function BlaiseButton({ children, className, ...props }: BlaiseButtonProps) {
+export function BlaiseButton({ children, onClick }: BlaiseButtonProps) {
   return (
     <button
-      className={cn(
-        "bg-survey-primary text-white hover:bg-survey-primary/90 px-6 py-2 font-normal cursor-pointer",
-        className
-      )}
-      {...props}
+      onClick={onClick}
+      className="w-30 h-7.5 pt-0.5 align-bottom bg-survey-primary text-survey-white font-normal cursor-pointer rounded"
     >
       {children}
     </button>
-  );
+  )
 }

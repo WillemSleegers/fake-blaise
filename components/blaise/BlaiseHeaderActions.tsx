@@ -1,18 +1,10 @@
 "use client"
 
 import Image from "next/image"
-import { cn } from "@/lib/utils"
 
-// Wingdings icon component for matching original survey styling
-function WingdingsIcon({
-  char,
-  className,
-}: {
-  char: string
-  className?: string
-}) {
+function WingdingsIcon({ char }: { char: string }) {
   return (
-    <span className={cn("font-['Wingdings'] text-[16px] font-bold text-survey-text", className)}>
+    <span className="font-['Wingdings'] text-[16px] font-bold text-survey-text">
       {char}
     </span>
   )
@@ -22,22 +14,13 @@ interface BlaiseHeaderActionProps {
   icon: React.ReactNode
   label: string
   onClick?: () => void
-  className?: string
 }
 
-export function BlaiseHeaderAction({
-  icon,
-  label,
-  onClick,
-  className,
-}: BlaiseHeaderActionProps) {
+function BlaiseHeaderAction({ icon, label, onClick }: BlaiseHeaderActionProps) {
   return (
     <button
       onClick={onClick}
-      className={cn(
-        "flex items-center gap-1 px-3 py-1 text-sm text-gray-700 hover:text-gray-900 cursor-pointer",
-        className
-      )}
+      className="flex items-center gap-1 px-1.5 py-1 text-sm text-survey-text hover:text-survey-primary cursor-pointer"
     >
       {icon}
       <span className="text-[10px] font-bold text-survey-text">{label}</span>
@@ -50,7 +33,6 @@ interface BlaiseHeaderActionsProps {
   onSaveAndClose?: () => void
   onPrint?: () => void
   onHelp?: () => void
-  className?: string
 }
 
 export function BlaiseHeaderActions({
@@ -58,10 +40,9 @@ export function BlaiseHeaderActions({
   onSaveAndClose,
   onPrint,
   onHelp,
-  className,
 }: BlaiseHeaderActionsProps) {
   return (
-    <div className={cn("flex items-center gap-2", className)}>
+    <div className="flex items-center">
       <BlaiseHeaderAction
         icon={<WingdingsIcon char="<" />}
         label="Opslaan"
@@ -78,7 +59,7 @@ export function BlaiseHeaderActions({
         onClick={onPrint}
       />
       <BlaiseHeaderAction
-        icon={<WingdingsIcon char="M" />}
+        icon={<span className="text-[16px] font-bold text-survey-text">?</span>}
         label="Help"
         onClick={onHelp}
       />

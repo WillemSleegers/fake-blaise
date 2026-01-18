@@ -1,23 +1,17 @@
-"use client";
-
-import { cn } from "@/lib/utils";
+"use client"
 
 interface BlaiseHelpButtonProps {
-  className?: string;
-  onClick?: () => void;
+  onClick?: () => void
 }
 
-export function BlaiseHelpButton({ className, onClick }: BlaiseHelpButtonProps) {
+export function BlaiseHelpButton({ onClick }: BlaiseHelpButtonProps) {
   return (
     <button
       onClick={onClick}
-      className={cn(
-        "inline-flex items-center justify-center w-5 h-5 bg-survey-help text-survey-text text-xs font-bold border border-gray-400",
-        className
-      )}
+      className="inline-flex items-center justify-center w-5 h-5 bg-survey-help text-survey-text text-xs font-bold border border-survey-text-muted"
       aria-label="Help"
     >
       ?
     </button>
-  );
+  )
 }

@@ -17,3 +17,7 @@
 - [x] The main page content should have a height matching the window size
 - [x] I guess it's more confusing to not have the components have a prefix, so maybe let's add a prefix, but let's have the prefix be 'Blaise'
 - [x] The font should be 'Verdana, sans-serif' throughout
+- [x] Align the header actions section to the top
+- [x] Put a top and bottom margin of 18px on the CBS logo
+- [x] The survey title should have the dark blue background color that it currently has, but its container should not span the whole width. The container should actually only cover the width of the survey title itself, with a 48px left margin.
+- [x] Add a 40px left margin to the CBS logo.

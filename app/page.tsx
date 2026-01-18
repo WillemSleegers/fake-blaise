@@ -13,21 +13,16 @@ import {
 const navItems = [
   { id: "welkom", label: "Welkom", active: true },
   { id: "algemene-vragen", label: "Algemene vragen" },
-  { id: "teelt", label: "Teelt" },
-  { id: "aantal-middelen", label: "Aantal middelen" },
   {
     id: "gewasbeschermingsmiddelen-teelt",
-    label: "Gewasbeschermings-\nmiddelen bij de teelt",
+    label: "Gewasbeschermings-middelen bij de teelt",
   },
-  { id: "middel-1-5", label: "Middel 1-5" },
   {
     id: "gewasbeschermingsmiddelen-bedrijfsruimten",
-    label: "Gewasbeschermings-\nmiddelen in bedrijfsruimten",
+    label: "Gewasbeschermings-middelen in bedrijfsruimten",
   },
   { id: "gebruik-teeltregistratie", label: "Gebruik teeltregistratie" },
   { id: "contact", label: "Contact" },
-  { id: "invuller", label: "Invuller" },
-  { id: "opmerkingen", label: "Opmerkingen" },
   { id: "tijdmeting", label: "Tijdmeting" },
   { id: "verzenden", label: "Verzenden" },
 ]
@@ -37,23 +32,22 @@ export default function Home() {
     <BlaiseLayout>
       <BlaiseHeader />
 
-      {/* Title bar section with cyan background */}
-      <div className="bg-survey-accent">
-        <div className="flex">
-          {/* Left: Title bar */}
-          <div className="flex-1">
-            <BlaiseTitleBar
-              title="Gewasbescherming 2024"
-              subtitle="Invullen voor: 1-1-2025"
-            />
-          </div>
+      {/* Title bar section */}
+      <div className="flex">
+        {/* Section 1: Title bar with due date */}
+        <BlaiseTitleBar
+          title="Gewasbescherming 2024"
+          subtitle="Invullen voor: 1-1-2025"
+        />
+        {/* Section 2: Empty */}
+        <div className="flex-1 border-t-20 border-t-survey-white bg-survey-accent"></div>
 
-          {/* Right: Info panel */}
+        {/* Section 3: Info panel with cyan background and white top border */}
+        <div className="border-t-20 border-t-survey-white bg-survey-accent flex items-center">
           <BlaiseInfoPanel
             companyName="Bedrijfsnaam 1"
             contactPerson="Contactpersoon 1"
             correspondenceNumber="0001"
-            className="mt-6"
           />
         </div>
       </div>
@@ -61,11 +55,11 @@ export default function Home() {
       {/* Main content area */}
       <div className="flex">
         {/* Left sidebar - Navigation */}
-        <BlaiseNavigation items={navItems} className="w-[250px] h-[450px]" />
+        <BlaiseNavigation items={navItems} />
 
         {/* Center - Content */}
         <BlaiseContent>
-          <h1 className="text-xl font-bold text-survey-text mb-6">
+          <h1 className="text-xl font-bold text-survey-text mb-4">
             Welkom bij de vragenlijst
           </h1>
 
@@ -78,8 +72,8 @@ export default function Home() {
 
           <BlaiseContentSection title="Toelichtingen">
             <p>
-              De knop <BlaiseHelpButton className="mx-1" /> betekent dat er
-              extra uitleg is. Druk op deze knop als u de uitleg wilt zien.
+              De knop <BlaiseHelpButton /> betekent dat er extra uitleg is. Druk
+              op deze knop als u de uitleg wilt zien.
             </p>
           </BlaiseContentSection>
 

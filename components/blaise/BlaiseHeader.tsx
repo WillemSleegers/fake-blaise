@@ -1,18 +1,23 @@
-import Image from "next/image";
-import { BlaiseHeaderActions } from "./BlaiseHeaderActions";
+import Image from "next/image"
+import { BlaiseHeaderActions } from "./BlaiseHeaderActions"
 
 interface BlaiseHeaderProps {
-  onSave?: () => void;
-  onSaveAndClose?: () => void;
-  onPrint?: () => void;
-  onHelp?: () => void;
+  onSave?: () => void
+  onSaveAndClose?: () => void
+  onPrint?: () => void
+  onHelp?: () => void
 }
 
-export function BlaiseHeader({ onSave, onSaveAndClose, onPrint, onHelp }: BlaiseHeaderProps) {
+export function BlaiseHeader({
+  onSave,
+  onSaveAndClose,
+  onPrint,
+  onHelp,
+}: BlaiseHeaderProps) {
   return (
-    <header className="flex items-center justify-between bg-white px-4 py-2">
+    <header className="flex items-start justify-between px-4">
       {/* Logo */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 my-4.5 ml-10">
         <Image
           src="/Logo.PNG"
           alt="CBS Logo"
@@ -30,5 +35,5 @@ export function BlaiseHeader({ onSave, onSaveAndClose, onPrint, onHelp }: Blaise
         onHelp={onHelp}
       />
     </header>
-  );
+  )
 }

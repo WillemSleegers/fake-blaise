@@ -1,21 +1,13 @@
-import { cn } from "@/lib/utils";
-
 interface BlaiseLayoutProps {
-  children: React.ReactNode;
-  className?: string;
+  children: React.ReactNode
 }
 
-export function BlaiseLayout({ children, className }: BlaiseLayoutProps) {
+export function BlaiseLayout({ children }: BlaiseLayoutProps) {
   return (
-    <div
-      className={cn(
-        "min-h-screen w-full bg-survey-bg font-sans",
-        className
-      )}
-    >
-      <div className="mx-auto max-w-[1274px] min-h-screen border-l-[10px] border-l-[rgb(39,29,108)] bg-white">
+    <div className="min-h-screen w-full bg-survey-bg font-sans">
+      <div className="mx-auto max-w-318.5 min-h-screen border-l-10 border-l-survey-border bg-survey-white">
         {children}
       </div>
     </div>
-  );
+  )
 }

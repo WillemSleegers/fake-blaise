@@ -1,36 +1,35 @@
-"use client";
-
-import { cn } from "@/lib/utils";
+"use client"
 
 interface BlaiseNavItem {
-  id: string;
-  label: string;
-  active?: boolean;
+  id: string
+  label: string
+  active?: boolean
 }
 
 interface BlaiseNavigationProps {
-  items: BlaiseNavItem[];
-  className?: string;
-  onItemClick?: (id: string) => void;
+  items: BlaiseNavItem[]
+  onItemClick?: (id: string) => void
 }
 
-export function BlaiseNavigation({ items, className, onItemClick }: BlaiseNavigationProps) {
+export function BlaiseNavigation({
+  items,
+  onItemClick,
+}: BlaiseNavigationProps) {
   return (
-    <nav className={cn("bg-survey-bg-light", className)}>
-      <div className="px-4 py-1">
-        <h2 className="text-sm font-bold text-survey-text">Inhoudsopgave</h2>
-      </div>
-      <ul className="py-1">
+    <nav className="bg-survey-bg-light w-62.5 h-112.5 pt-2">
+      <h2 className="px-4 text-[13px] font-bold text-survey-text">
+        Inhoudsopgave
+      </h2>
+      <ul className="">
         {items.map((item) => (
           <li key={item.id}>
             <button
               onClick={() => onItemClick?.(item.id)}
-              className={cn(
-                "w-full text-left pl-[21px] pr-4 py-0.5 text-sm cursor-pointer",
+              className={`w-full text-left pl-5.25 pr-4 text-[13px] cursor-pointer ${
                 item.active
                   ? "font-bold text-survey-text"
                   : "text-survey-text-muted"
-              )}
+              }`}
             >
               {item.label}
             </button>
@@ -38,5 +37,5 @@ export function BlaiseNavigation({ items, className, onItemClick }: BlaiseNaviga
         ))}
       </ul>
     </nav>
-  );
+  )
 }
