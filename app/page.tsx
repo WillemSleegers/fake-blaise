@@ -1,65 +1,124 @@
-import Image from "next/image";
+import {
+  BlaiseLayout,
+  BlaiseHeader,
+  BlaiseTitleBar,
+  BlaiseNavigation,
+  BlaiseContent,
+  BlaiseContentSection,
+  BlaiseInfoPanel,
+  BlaiseButton,
+  BlaiseHelpButton,
+} from "@/components/blaise"
+
+const navItems = [
+  { id: "welkom", label: "Welkom", active: true },
+  { id: "algemene-vragen", label: "Algemene vragen" },
+  { id: "teelt", label: "Teelt" },
+  { id: "aantal-middelen", label: "Aantal middelen" },
+  {
+    id: "gewasbeschermingsmiddelen-teelt",
+    label: "Gewasbeschermings-\nmiddelen bij de teelt",
+  },
+  { id: "middel-1-5", label: "Middel 1-5" },
+  {
+    id: "gewasbeschermingsmiddelen-bedrijfsruimten",
+    label: "Gewasbeschermings-\nmiddelen in bedrijfsruimten",
+  },
+  { id: "gebruik-teeltregistratie", label: "Gebruik teeltregistratie" },
+  { id: "contact", label: "Contact" },
+  { id: "invuller", label: "Invuller" },
+  { id: "opmerkingen", label: "Opmerkingen" },
+  { id: "tijdmeting", label: "Tijdmeting" },
+  { id: "verzenden", label: "Verzenden" },
+]
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <BlaiseLayout>
+      <BlaiseHeader />
+
+      {/* Title bar section with cyan background */}
+      <div className="bg-survey-accent">
+        <div className="flex">
+          {/* Left: Title bar */}
+          <div className="flex-1">
+            <BlaiseTitleBar
+              title="Gewasbescherming 2024"
+              subtitle="Invullen voor: 1-1-2025"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          </div>
+
+          {/* Right: Info panel */}
+          <BlaiseInfoPanel
+            companyName="Bedrijfsnaam 1"
+            contactPerson="Contactpersoon 1"
+            correspondenceNumber="0001"
+            className="mt-6"
+          />
         </div>
-      </main>
-    </div>
-  );
+      </div>
+
+      {/* Main content area */}
+      <div className="flex">
+        {/* Left sidebar - Navigation */}
+        <BlaiseNavigation items={navItems} className="w-[250px] h-[450px]" />
+
+        {/* Center - Content */}
+        <BlaiseContent>
+          <h1 className="text-xl font-bold text-survey-text mb-6">
+            Welkom bij de vragenlijst
+          </h1>
+
+          <BlaiseContentSection title="Invullen">
+            <p>
+              Wij adviseren u de vragenlijst in te vullen op een desktop
+              computer of laptop.
+            </p>
+          </BlaiseContentSection>
+
+          <BlaiseContentSection title="Toelichtingen">
+            <p>
+              De knop <BlaiseHelpButton className="mx-1" /> betekent dat er
+              extra uitleg is. Druk op deze knop als u de uitleg wilt zien.
+            </p>
+          </BlaiseContentSection>
+
+          <BlaiseContentSection title="Opslaan">
+            <p>
+              Gegevens worden alleen automatisch opgeslagen wanneer u tussen
+              schermen bladert. Wanneer u langere tijd werkt in één scherm, is
+              het daarom raadzaam zelf de gegevens regelmatig op te slaan door
+              rechtsboven in het scherm op de knop &apos;Opslaan&apos; te
+              drukken.
+            </p>
+            <p>
+              U kunt het invullen van de vragenlijst onderbreken met de knop
+              &apos;Opslaan en sluiten&apos;. Uw eerder ingevulde antwoorden
+              blijven dan bewaard.
+            </p>
+          </BlaiseContentSection>
+
+          <BlaiseContentSection title="Heeft u vragen?">
+            <p>
+              Druk op de &apos;Help&apos; knop rechtsboven in dit scherm voor
+              verdere uitleg of kijk op{" "}
+              <a
+                href="https://www.cbs.nl"
+                className="text-survey-link underline"
+              >
+                www.cbs.nl
+              </a>{" "}
+              voor veelgestelde vragen over dit onderzoek.
+            </p>
+          </BlaiseContentSection>
+
+          <p className="text-base text-survey-text mb-6">
+            Druk op &apos;Volgende&apos; om verder te gaan met de vragenlijst.
+          </p>
+
+          <BlaiseButton>Volgende</BlaiseButton>
+        </BlaiseContent>
+      </div>
+    </BlaiseLayout>
+  )
 }
