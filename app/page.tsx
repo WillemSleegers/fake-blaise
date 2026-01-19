@@ -21,7 +21,7 @@ export default function Home() {
               href={`/survey/${survey.id}/${survey.pages[0].id}`}
               className="block border border-survey-text-muted p-4 hover:border-survey-primary hover:bg-survey-bg-light"
             >
-              <h2 className="font-bold text-survey-text">{survey.title}</h2>
+              <h2 className="font-bold text-survey-text">{survey.label || survey.title}</h2>
               <p className="text-survey-text-muted text-sm">{survey.subtitle}</p>
             </Link>
           ))}

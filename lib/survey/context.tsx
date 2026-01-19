@@ -21,7 +21,6 @@ interface SurveyProviderProps {
 
 export function SurveyProvider({ children, surveyId }: SurveyProviderProps) {
   const storageKey = `survey-answers-${surveyId}`
-  const visitedKey = `survey-visited-${surveyId}`
 
   const [answers, setAnswers] = useState<SurveyAnswers>(() => {
     if (typeof window === "undefined") return {}
@@ -29,11 +28,7 @@ export function SurveyProvider({ children, surveyId }: SurveyProviderProps) {
     return stored ? JSON.parse(stored) : {}
   })
 
-  const [visitedPages, setVisitedPages] = useState<Set<string>>(() => {
-    if (typeof window === "undefined") return new Set()
-    const stored = sessionStorage.getItem(visitedKey)
-    return stored ? new Set(JSON.parse(stored)) : new Set()
-  })
+  const [visitedPages, setVisitedPages] = useState<Set<string>>(new Set())
 
   const setAnswer = useCallback(
     (questionId: string, value: string | string[]) => {
@@ -60,23 +55,16 @@ export function SurveyProvider({ children, surveyId }: SurveyProviderProps) {
     setVisitedPages(new Set())
     if (typeof window !== "undefined") {
       sessionStorage.removeItem(storageKey)
-      sessionStorage.removeItem(visitedKey)
     }
-  }, [storageKey, visitedKey])
+  }, [storageKey])
 
-  const markPageVisited = useCallback(
-    (pageId: string) => {
-      setVisitedPages((prev) => {
-        const next = new Set(prev)
-        next.add(pageId)
-        if (typeof window !== "undefined") {
-          sessionStorage.setItem(visitedKey, JSON.stringify([...next]))
-        }
-        return next
-      })
-    },
-    [visitedKey]
-  )
+  const markPageVisited = useCallback((pageId: string) => {
+    setVisitedPages((prev) => {
+      const next = new Set(prev)
+      next.add(pageId)
+      return next
+    })
+  }, [])
 
   return (
     <SurveyContext.Provider

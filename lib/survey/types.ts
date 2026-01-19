@@ -6,7 +6,7 @@ export interface SurveyCompany {
   correspondenceNumber: string
 }
 
-export interface ContentSection {
+export interface Section {
   title?: string
   text: string
 }
@@ -14,6 +14,7 @@ export interface ContentSection {
 export interface RadioOption {
   value: string
   label: string
+  skipTo?: string // Page ID to skip to when this option is selected
 }
 
 export interface BaseQuestion {
@@ -57,40 +58,20 @@ export type Question =
   | CheckboxQuestion
   | NumberQuestion
 
-export interface ContentPage {
+export type PageItem = Section | Question
+
+export interface SurveyPage {
   id: string
   label: string
-  type: "content"
-  content: {
-    title: string
-    sections: ContentSection[]
-  }
+  title: string
+  content: PageItem[]
+  isSubmitPage?: boolean
+  parentId?: string // ID of parent page for subpages (indented in navigation)
 }
-
-export interface QuestionsPage {
-  id: string
-  label: string
-  type: "questions"
-  content: {
-    title: string
-    questions: Question[]
-  }
-}
-
-export interface SubmitPage {
-  id: string
-  label: string
-  type: "submit"
-  content: {
-    title: string
-    text: string
-  }
-}
-
-export type SurveyPage = ContentPage | QuestionsPage | SubmitPage
 
 export interface Survey {
   id: string
+  label?: string // Display label for survey selection (defaults to title)
   title: string
   subtitle: string
   company: SurveyCompany
@@ -98,3 +79,13 @@ export interface Survey {
 }
 
 export type SurveyAnswers = Record<string, string | string[]>
+
+// Type guard to check if an item is a Question
+export function isQuestion(item: PageItem): item is Question {
+  return "type" in item && "id" in item
+}
+
+// Type guard to check if an item is a Section
+export function isSection(item: PageItem): item is Section {
+  return "text" in item && !("type" in item)
+}

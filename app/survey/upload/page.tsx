@@ -114,39 +114,34 @@ export default function UploadPage() {
                   {
                     id: "welcome",
                     label: "Welcome",
-                    type: "content",
-                    content: {
-                      title: "Welcome",
-                      sections: [{ title: "Introduction", text: "Welcome text here" }],
-                    },
+                    title: "Welcome",
+                    content: [
+                      { title: "Introduction", text: "Welcome text here" },
+                    ],
                   },
                   {
                     id: "questions",
                     label: "Questions",
-                    type: "questions",
-                    content: {
-                      title: "Questions",
-                      questions: [
-                        {
-                          id: "q1",
-                          type: "radio",
-                          label: "Do you agree?",
-                          options: [
-                            { value: "yes", label: "Yes" },
-                            { value: "no", label: "No" },
-                          ],
-                        },
-                      ],
-                    },
+                    title: "Questions",
+                    content: [
+                      { text: "Please answer the following questions." },
+                      {
+                        id: "q1",
+                        type: "radio",
+                        label: "Do you agree?",
+                        options: [
+                          { value: "yes", label: "Yes" },
+                          { value: "no", label: "No" },
+                        ],
+                      },
+                    ],
                   },
                   {
                     id: "submit",
                     label: "Submit",
-                    type: "submit",
-                    content: {
-                      title: "Submit",
-                      text: "Click submit to finish.",
-                    },
+                    title: "Submit",
+                    isSubmitPage: true,
+                    content: [{ text: "Click submit to finish." }],
                   },
                 ],
               },

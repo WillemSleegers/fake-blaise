@@ -1,6 +1,8 @@
-import type { Survey, SurveyPage, Question } from "./types"
+import type { Survey, PageItem } from "./types"
 
-export function validateSurvey(data: unknown): { valid: true; survey: Survey } | { valid: false; error: string } {
+export function validateSurvey(
+  data: unknown
+): { valid: true; survey: Survey } | { valid: false; error: string } {
   if (!data || typeof data !== "object") {
     return { valid: false, error: "Survey must be an object" }
   }
@@ -30,7 +32,10 @@ export function validateSurvey(data: unknown): { valid: true; survey: Survey } |
     return { valid: false, error: "Company must have a string 'contactPerson'" }
   }
   if (typeof company.correspondenceNumber !== "string") {
-    return { valid: false, error: "Company must have a string 'correspondenceNumber'" }
+    return {
+      valid: false,
+      error: "Company must have a string 'correspondenceNumber'",
+    }
   }
 
   // Check pages
@@ -48,7 +53,10 @@ export function validateSurvey(data: unknown): { valid: true; survey: Survey } |
   return { valid: true, survey: data as Survey }
 }
 
-function validatePage(page: unknown, index: number): { valid: true } | { valid: false; error: string } {
+function validatePage(
+  page: unknown,
+  index: number
+): { valid: true } | { valid: false; error: string } {
   if (!page || typeof page !== "object") {
     return { valid: false, error: `Page ${index} must be an object` }
   }
@@ -61,61 +69,80 @@ function validatePage(page: unknown, index: number): { valid: true } | { valid: 
   if (typeof p.label !== "string" || !p.label) {
     return { valid: false, error: `Page ${index} must have a string 'label'` }
   }
-  if (!["content", "questions", "submit"].includes(p.type as string)) {
-    return { valid: false, error: `Page ${index} must have type 'content', 'questions', or 'submit'` }
+  if (typeof p.title !== "string" || !p.title) {
+    return { valid: false, error: `Page ${index} must have a string 'title'` }
   }
-  if (!p.content || typeof p.content !== "object") {
-    return { valid: false, error: `Page ${index} must have a 'content' object` }
-  }
-
-  const content = p.content as Record<string, unknown>
-
-  if (typeof content.title !== "string") {
-    return { valid: false, error: `Page ${index} content must have a string 'title'` }
+  if (!Array.isArray(p.content)) {
+    return { valid: false, error: `Page ${index} must have a 'content' array` }
   }
 
-  if (p.type === "content") {
-    if (!Array.isArray(content.sections)) {
-      return { valid: false, error: `Content page ${index} must have a 'sections' array` }
-    }
-  } else if (p.type === "questions") {
-    if (!Array.isArray(content.questions)) {
-      return { valid: false, error: `Questions page ${index} must have a 'questions' array` }
-    }
-    for (let j = 0; j < content.questions.length; j++) {
-      const qResult = validateQuestion(content.questions[j], index, j)
-      if (!qResult.valid) {
-        return qResult
-      }
-    }
-  } else if (p.type === "submit") {
-    if (typeof content.text !== "string") {
-      return { valid: false, error: `Submit page ${index} must have a 'text' string` }
+  for (let j = 0; j < p.content.length; j++) {
+    const itemResult = validatePageItem(p.content[j], index, j)
+    if (!itemResult.valid) {
+      return itemResult
     }
   }
 
   return { valid: true }
 }
 
-function validateQuestion(question: unknown, pageIndex: number, questionIndex: number): { valid: true } | { valid: false; error: string } {
-  if (!question || typeof question !== "object") {
-    return { valid: false, error: `Question ${questionIndex} on page ${pageIndex} must be an object` }
+function validatePageItem(
+  item: unknown,
+  pageIndex: number,
+  itemIndex: number
+): { valid: true } | { valid: false; error: string } {
+  if (!item || typeof item !== "object") {
+    return {
+      valid: false,
+      error: `Item ${itemIndex} on page ${pageIndex} must be an object`,
+    }
   }
 
-  const q = question as Record<string, unknown>
+  const i = item as Record<string, unknown>
 
-  if (typeof q.id !== "string" || !q.id) {
-    return { valid: false, error: `Question ${questionIndex} on page ${pageIndex} must have a string 'id'` }
-  }
-  if (typeof q.label !== "string" || !q.label) {
-    return { valid: false, error: `Question ${questionIndex} on page ${pageIndex} must have a string 'label'` }
-  }
-  if (!["text", "textarea", "radio", "checkbox", "number"].includes(q.type as string)) {
-    return { valid: false, error: `Question ${questionIndex} on page ${pageIndex} must have type 'text', 'textarea', 'radio', 'checkbox', or 'number'` }
-  }
+  // Check if it's a question (has type and id) or a section (has text, no type)
+  if ("type" in i) {
+    // It's a question
+    if (typeof i.id !== "string" || !i.id) {
+      return {
+        valid: false,
+        error: `Question ${itemIndex} on page ${pageIndex} must have a string 'id'`,
+      }
+    }
+    if (typeof i.label !== "string" || !i.label) {
+      return {
+        valid: false,
+        error: `Question ${itemIndex} on page ${pageIndex} must have a string 'label'`,
+      }
+    }
+    if (
+      !["text", "textarea", "radio", "checkbox", "number"].includes(
+        i.type as string
+      )
+    ) {
+      return {
+        valid: false,
+        error: `Question ${itemIndex} on page ${pageIndex} must have type 'text', 'textarea', 'radio', 'checkbox', or 'number'`,
+      }
+    }
 
-  if ((q.type === "radio" || q.type === "checkbox") && !Array.isArray(q.options)) {
-    return { valid: false, error: `Question ${questionIndex} on page ${pageIndex} of type '${q.type}' must have an 'options' array` }
+    if (
+      (i.type === "radio" || i.type === "checkbox") &&
+      !Array.isArray(i.options)
+    ) {
+      return {
+        valid: false,
+        error: `Question ${itemIndex} on page ${pageIndex} of type '${i.type}' must have an 'options' array`,
+      }
+    }
+  } else {
+    // It's a section - must have text
+    if (typeof i.text !== "string") {
+      return {
+        valid: false,
+        error: `Section ${itemIndex} on page ${pageIndex} must have a string 'text'`,
+      }
+    }
   }
 
   return { valid: true }

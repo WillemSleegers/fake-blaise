@@ -1,8 +1,8 @@
 import type { Survey } from "../types"
 
-export const gewasbescherming2024: Survey = {
-  id: "gewasbescherming-2024",
-  label: "Gewasbescherming 2024 (MPS)",
+export const gewasbescherming2024Agrovision: Survey = {
+  id: "gewasbescherming-2024-agrovision",
+  label: "Gewasbescherming 2024 (AgroVision)",
   title: "Gewasbescherming 2024",
   subtitle: "Invullen voor: 1-1-2025",
   company: {
@@ -35,15 +35,15 @@ export const gewasbescherming2024: Survey = {
       ],
     },
     {
-      id: "mps",
-      label: "MPS",
-      title: "MPS",
+      id: "agrovision",
+      label: "AgroVision",
+      title: "AgroVision",
       content: [
         {
-          id: "mps",
+          id: "agrovision",
           type: "radio",
           label:
-            "Maakt u gebruik van MPS voor het registreren van het gebruik van gewasbeschermingsmiddelen op gewas x?",
+            "Maakt u gebruik van AgroVision voor het registreren van het gebruik van gewasbeschermingsmiddelen op gewas x?",
           options: [
             { value: "ja", label: "Ja" },
             { value: "nee", label: "Nee", skipTo: "algemene-vragen" },
@@ -57,22 +57,25 @@ export const gewasbescherming2024: Survey = {
       title: "Pilot",
       content: [
         {
-          text: "CBS voert een pilot uit met MPS bij een select aantal gewassen waarbij berichtgevers die gegevens geregistreerd hebben bij MPS ervoor kunnen kiezen CBS toestemming te geven informatie over het gebruik van middelen en het behandeld oppervlak per middel voor gewas x op te vragen bij MPS.",
+          text: "CBS voert een pilot uit met AgroVision bij een select aantal gewassen waarbij berichtgevers die gegevens geregistreerd hebben bij AgroVision ervoor kunnen kiezen een rapportage uit AgroVision naar CBS te verzenden.",
         },
         {
           text: "Deze pilot is bedoeld om de administratieve lastendruk van dit onderzoek bij berichtgevers te verminderen.",
         },
         {
-          text: "Om mee te kunnen doen is het belangrijk dat uw administratie bij MPS volledig is voor gewas x. Wanneer deze gegevens niet volledig zijn bij MPS, zullen wij u alsnog verzoeken de gegevens via deze enquête in te vullen. Bijvoorbeeld wanneer u geen gegevens hebt geregistreerd bij MPS, of als u alleen de gebruikte hoeveelheid van een middel hebt geregistreerd maar niet het behandelde oppervlak, of andersom.",
+          text: "In de volgende stap zal uitgelegd worden hoe u de rapportage uit AgroVision kunt downloaden en uploaden naar CBS. U ziet dan ook welke data naar CBS wordt verstuurd.",
+        },
+        {
+          text: "De rapportage mogelijkheid die AgroVision ondersteund bevat meer gegevens dan wij vragen in deze enquête. In de enquête vragen wij u het gebruik van middelen en het behandeld oppervlak per middel voor gewas x. Wij zullen alleen deze gegevens gebruiken, de overige gegevens worden bij binnenkomst vernietigd.",
         },
         {
           id: "pilot",
           type: "radio",
           label:
-            "Wilt u meedoen aan de pilot waarbij u CBS toestemming geeft de gegevens over het gebruik van middelen en het behandelde oppervlak per middel over gewas x bij MPS op te halen?",
+            "Wilt u aan deze pilot meedoen en de rapportage naar CBS sturen?",
           options: [
             { value: "ja", label: "Ja" },
-            { value: "nee", label: "Nee" },
+            { value: "nee", label: "Nee", skipTo: "algemene-vragen" },
           ],
         },
       ],
@@ -80,11 +83,25 @@ export const gewasbescherming2024: Survey = {
     {
       id: "pilot-afronding",
       label: "Afronding",
-      title: "Afronding deelname pilot",
+      title: "Rapportage verzenden",
       parentId: "pilot",
+      isSubmitPage: true,
       content: [
         {
-          text: "Dit is het einde van de gebruikerstest.",
+          text: "In AgroVision kunt u op de volgende wijze de rapportage voor CBS downloaden. U ziet dan ook welke gegevens u met CBS deelt.",
+        },
+        {
+          text: "De rapportage mogelijkheid die AgroVision ondersteund voor CBS bevat meer gegevens dan wij vragen in deze enquête. Wij zullen echter alleen de gegevens over het gebruik van middelen en het behandeld oppervlak per middel van gewas x gebruiken, de overige gegevens worden bij binnenkomst vernietigd.",
+        },
+        {
+          title: "Instructies",
+          text: "In AgroVision gaat u naar .. en klikt u op… (Clint?). Zie bijlage (handleiding agrovision en mock-up van toekomstige bedrijvenkeuze in agrovision). Tegen de tijd dat gaan implementeren moeten we dit uiteraard nog wel samen met agrovison bekijken.",
+        },
+        {
+          text: "Om mee te doen met de pilot is het belangrijk dat de gegevens over het gebruik van middelen en het behandeld oppervlak per middel voor gewas x compleet zijn. Wanneer deze gegevens niet volledig zijn bij AgroVision, zullen wij u alsnog verzoeken de gegevens via deze enquête in te vullen. Bijvoorbeeld wanneer u geen gegevens hebt geregistreerd bij AgroVision, of als u alleen de gebruikte hoeveelheid van een middel hebt geregistreerd maar niet het behandelde oppervlak, of andersom.",
+        },
+        {
+          text: "Met onderstaande knop kunt u de rapportage versturen naar CBS.",
         },
       ],
     },

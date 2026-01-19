@@ -20,11 +20,14 @@ import {
 } from "@/components/blaise"
 import {
   getSurvey,
-  SurveyProvider,
   useSurvey,
+  isQuestion,
+  isSection,
   type Survey,
   type SurveyPage,
   type Question,
+  type Section,
+  type RadioQuestion,
 } from "@/lib/survey"
 
 function QuestionRenderer({ question }: { question: Question }) {
@@ -94,6 +97,14 @@ function QuestionRenderer({ question }: { question: Question }) {
   }
 }
 
+function SectionRenderer({ section }: { section: Section }) {
+  return (
+    <BlaiseContentSection title={section.title}>
+      <p>{section.text}</p>
+    </BlaiseContentSection>
+  )
+}
+
 function PageContent({
   survey,
   page,
@@ -104,15 +115,37 @@ function PageContent({
   currentIndex: number
 }) {
   const router = useRouter()
-  const { clearAnswers } = useSurvey()
+  const { clearAnswers, answers } = useSurvey()
 
   const isFirstPage = currentIndex === 0
   const isLastPage = currentIndex === survey.pages.length - 1
   const nextPage = !isLastPage ? survey.pages[currentIndex + 1] : null
   const prevPage = !isFirstPage ? survey.pages[currentIndex - 1] : null
 
+  // Find skip target based on current page's radio answers
+  const getSkipTarget = (): string | null => {
+    for (const item of page.content) {
+      if (isQuestion(item) && item.type === "radio") {
+        const answer = answers[item.id]
+        if (answer) {
+          const radioQuestion = item as RadioQuestion
+          const selectedOption = radioQuestion.options.find(
+            (opt) => opt.value === answer
+          )
+          if (selectedOption?.skipTo) {
+            return selectedOption.skipTo
+          }
+        }
+      }
+    }
+    return null
+  }
+
   const handleNext = () => {
-    if (nextPage) {
+    const skipTarget = getSkipTarget()
+    if (skipTarget) {
+      router.push(`/survey/${survey.id}/${skipTarget}`)
+    } else if (nextPage) {
       router.push(`/survey/${survey.id}/${nextPage.id}`)
     }
   }
@@ -126,44 +159,29 @@ function PageContent({
   const handleSubmit = () => {
     clearAnswers()
     alert("Vragenlijst verzonden! (Demo - geen data opgeslagen)")
-    router.push(`/survey/${survey.id}/${survey.pages[0].id}`)
   }
 
   return (
     <>
-      <h1 className="text-xl font-bold text-survey-text mb-4">
-        {page.content.title}
-      </h1>
+      <h1 className="text-xl font-bold text-survey-text mb-4">{page.title}</h1>
 
-      {page.type === "content" && (
-        <>
-          {page.content.sections.map((section, i) => (
-            <BlaiseContentSection key={i} title={section.title}>
-              <p>{section.text}</p>
-            </BlaiseContentSection>
-          ))}
-        </>
-      )}
-
-      {page.type === "questions" && (
-        <div className="mb-6">
-          {page.content.questions.map((question) => (
-            <QuestionRenderer key={question.id} question={question} />
-          ))}
-        </div>
-      )}
-
-      {page.type === "submit" && (
-        <BlaiseContentSection>
-          <p>{page.content.text}</p>
-        </BlaiseContentSection>
-      )}
+      <div className="mb-6">
+        {page.content.map((item, i) => {
+          if (isQuestion(item)) {
+            return <QuestionRenderer key={item.id} question={item} />
+          }
+          if (isSection(item)) {
+            return <SectionRenderer key={i} section={item} />
+          }
+          return null
+        })}
+      </div>
 
       <div className="flex gap-4">
         {!isFirstPage && (
           <BlaiseButton onClick={handlePrevious}>Vorige</BlaiseButton>
         )}
-        {page.type === "submit" ? (
+        {page.isSubmitPage ? (
           <BlaiseButton onClick={handleSubmit}>Verzenden</BlaiseButton>
         ) : (
           <BlaiseButton onClick={handleNext}>Volgende</BlaiseButton>
@@ -194,6 +212,7 @@ function SurveyPageInner({
     label: p.label,
     active: i === currentIndex,
     visited: visitedPages.has(p.id),
+    parentId: p.parentId,
   }))
 
   const handleNavClick = (pageId: string) => {
@@ -219,7 +238,7 @@ function SurveyPageInner({
 
       {/* Main content area */}
       <div className="flex">
-        <BlaiseNavigation items={navItems} onItemClick={handleNavClick} />
+        <BlaiseNavigation items={navItems} onItemClick={handleNavClick} activePageId={page.id} />
         <BlaiseContent>
           <PageContent
             survey={survey}
@@ -252,12 +271,6 @@ export default function SurveyPage() {
   const page = survey.pages[currentIndex]
 
   return (
-    <SurveyProvider surveyId={surveyId}>
-      <SurveyPageInner
-        survey={survey}
-        page={page}
-        currentIndex={currentIndex}
-      />
-    </SurveyProvider>
+    <SurveyPageInner survey={survey} page={page} currentIndex={currentIndex} />
   )
 }
