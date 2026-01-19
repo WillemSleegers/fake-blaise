@@ -4,6 +4,7 @@ interface BlaiseNavItem {
   id: string
   label: string
   active?: boolean
+  visited?: boolean
 }
 
 interface BlaiseNavigationProps {
@@ -28,7 +29,9 @@ export function BlaiseNavigation({
               className={`w-full text-left pl-5.25 pr-4 text-[13px] cursor-pointer ${
                 item.active
                   ? "font-bold text-survey-text"
-                  : "text-survey-text-muted"
+                  : item.visited
+                    ? "text-survey-text"
+                    : "text-survey-text-muted"
               }`}
             >
               {item.label}
